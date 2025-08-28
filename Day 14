@@ -1,0 +1,20 @@
+def count_substrings_with_k_distinct(s, k):
+    def at_most_k(s, k):
+        count = {}
+        res = i = 0
+        for j, c in enumerate(s):
+            count[c] = count.get(c, 0) + 1
+            while len(count) > k:
+                count[s[i]] -= 1
+                if count[s[i]] == 0:
+                    del count[s[i]]
+                i += 1
+            res += j - i + 1
+        return res
+    return at_most_k(s, k) - at_most_k(s, k - 1)
+
+print(count_substrings_with_k_distinct("pqpqs", 2))
+print(count_substrings_with_k_distinct("aabacbebebe", 3))
+print(count_substrings_with_k_distinct("a", 1))
+print(count_substrings_with_k_distinct("abc", 3))
+print(count_substrings_with_k_distinct("abc", 2))
