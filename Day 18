@@ -1,0 +1,18 @@
+import math
+
+def count_divisors(n):
+    cnt = 0
+    for i in range(1, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            cnt += 1
+            if i != n // i:
+                cnt += 1
+    return cnt
+
+print(count_divisors(12))
+print(count_divisors(18))
+print(count_divisors(29))
+print(count_divisors(100))
+print(count_divisors(1))
+print(count_divisors(997))
+print(count_divisors(36))
