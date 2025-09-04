@@ -1,63 +1,40 @@
 class Stack:
     def __init__(self):
         self.items = []
-    def push(self, item):
-        self.items.append(item)
+    def push(self, x):
+        self.items.append(x)
     def pop(self):
-        if not self.is_empty():
-            return self.items.pop()
-    def peek(self):
-        if not self.is_empty():
-            return self.items[-1]
+        return self.items.pop() if self.items else None
     def is_empty(self):
-        return len(self.items) == 0
+        return not self.items
     def __str__(self):
         return str(self.items)
 
-def insert_at_bottom(stack, item):
-    if stack.is_empty():
-        stack.push(item)
+def reverse_stack(s):
+    if s.is_empty():
+        return
+    x = s.pop()
+    reverse_stack(s)
+    insert_bottom(s, x)
+
+def insert_bottom(s, x):
+    if s.is_empty():
+        s.push(x)
     else:
-        temp = stack.pop()
-        insert_at_bottom(stack, item)
-        stack.push(temp)
+        y = s.pop()
+        insert_bottom(s, x)
+        s.push(y)
 
-def reverse_stack(stack):
-    if not stack.is_empty():
-        temp = stack.pop()
-        reverse_stack(stack)
-        insert_at_bottom(stack, temp)
+def test_stack(vals):
+    s = Stack()
+    for v in vals:
+        s.push(v)
+    reverse_stack(s)
+    print(s)
 
-s1 = Stack()
-for i in [1, 2, 3, 4]:
-    s1.push(i)
-reverse_stack(s1)
-print(s1)
-
-s2 = Stack()
-for i in [3, 2, 1]:
-    s2.push(i)
-reverse_stack(s2)
-print(s2)
-
-s3 = Stack()
-for i in [5]:
-    s3.push(i)
-reverse_stack(s3)
-print(s3)
-
-s4 = Stack()
-for i in [-5, -10, -15]:
-    s4.push(i)
-reverse_stack(s4)
-print(s4)
-
-s5 = Stack()
-reverse_stack(s5)
-print(s5)
-
-s6 = Stack()
-for i in [3, 3, 3]:
-    s6.push(i)
-reverse_stack(s6)
-print(s6)
+test_stack([1, 2, 3, 4])
+test_stack([3, 2, 1])
+test_stack([5])
+test_stack([-5, -10, -15])
+test_stack([])
+test_stack([3, 3, 3])
