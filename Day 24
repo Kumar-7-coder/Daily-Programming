@@ -1,0 +1,47 @@
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def lowestCommonAncestor(root, p, q):
+    if not root or root == p or root == q:
+        return root
+    left = lowestCommonAncestor(root.left, p, q)
+    right = lowestCommonAncestor(root.right, p, q)
+    if left and right:
+        return root
+    return left if left else right
+
+def build_tree(nodes):
+    if not nodes:
+        return None
+    root = TreeNode(nodes[0])
+    queue = [root]
+    index = 1
+    while queue and index < len(nodes):
+        node = queue.pop(0)
+        if node:
+            left_val = nodes[index] if index < len(nodes) else None
+            right_val = nodes[index + 1] if index + 1 < len(nodes) else None
+            node.left = TreeNode(left_val) if left_val is not None else None
+            node.right = TreeNode(right_val) if right_val is not None else None
+            queue.append(node.left)
+            queue.append(node.right)
+            index += 2
+    return root
+
+root1 = build_tree([3, 5, 1, 6, 2, 0, 8, None, None, 7, 4])
+p1 = root1.left
+q1 = root1.right
+print(lowestCommonAncestor(root1, p1, q1).val)
+
+root2 = build_tree([3, 5, 1, 6, 2, 0, 8, None, None, 7, 4])
+p2 = root2.left
+q2 = root2.left.right.right
+print(lowestCommonAncestor(root2, p2, q2).val)
+
+root3 = build_tree([1, 2])
+p3 = root3
+q3 = root3.left
+print(lowestCommonAncestor(root3, p3, q3).val)
