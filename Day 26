@@ -1,0 +1,33 @@
+from collections import defaultdict, deque
+
+def contains_cycle(V, edges):
+    graph = defaultdict(list)
+    for u, v in edges:
+        graph[u].append(v)
+        graph[v].append(u)
+        
+    visited = [False] * V
+    
+    def bfs(start):
+        queue = deque([(start, -1)])
+        visited[start] = True
+        
+        while queue:
+            node, parent = queue.popleft()
+            for neighbor in graph[node]:
+                if not visited[neighbor]:
+                    visited[neighbor] = True
+                    queue.append((neighbor, node))
+                elif neighbor != parent:
+                    return True
+        return False
+    
+    for i in range(V):
+        if not visited[i]:
+            if bfs(i):
+                return True
+    return False
+
+print(contains_cycle(5, [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]]))
+print(contains_cycle(3, [[0, 1], [1, 2]]))
+print(contains_cycle(4, [[0, 1], [1, 2], [2, 0]]))
